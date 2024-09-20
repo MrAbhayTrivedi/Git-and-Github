@@ -43,96 +43,63 @@ Now all `.log` files and anything in `temp` folders will be ignored by Git.
 ## Rules for .gitignore
 Here are the general rules for matching patterns in `.gitignore` files: 
 
-|Pattern	             Explanation/Matches	                Examples    
-|                        Blank lines are ignored	 
-|`# text comment`	     Lines starting with # are ignored 
-|
-|name	                 All name files, name folders,       /name.log
-|                        and files and folders in            /name/file.txt
-|                        any name folder	                    /lib/name.log
-|
-|name/	                 Ending with / specifies the         /name/file.txt
-|                        pattern is for a folder.            /name/log/name.log
-|                        Matches all files and folders       no match:
-|                        in any name folder                  /name.log
-|
-|name.file	            All files with the name.file	    /name.file
-|                                                            /lib/name.file
-|
-|/name.file	            Starting with / specifies the       /name.file
-|                        pattern matches only files in       no match:
-|                        the root folder                     /lib/name.file
-|
-|lib/name.file	        Patterns specifiing files in        /lib/name.file
-|                        specific folders are always         no match:
-|                        realative to root (even if          name.file
-|                        you do not start with / )           /test/lib/name.file
-|
-|**/lib/name.file	    Starting with ** before /           /lib/name.file
-|                        specifies that it matches           /test/lib/name.file
-|                        any folder in the repository. 
-|                        Not just on root.
-|
-|**/name	                All name folders, and files         /name/log.file
-|                        and folders in any name folder	    /lib/name/log.file
-|                                                            /name/lib/log.file
-|
-|/lib/**/name	        All name folders, and files and     /lib/name/log.file
-|                        folders in any name folder within   /lib/test/name/log.file
-|                        the lib folder.                     /lib/test/ver1/name/log.file
-|                                                            no match:
-|                                                            /name/log.file
-|
-|*.file	                All files withe .file extention 	/name.file
-|                                                            /lib/name.file
-|
-|*name/	                All folders ending with name	    /lastname/log.file
-|                                                            /firstname/log.file
-|
-|name?.file	            ? matches a single non-specific     /names.file
-|                        character	                        /name1.file
-|                                                            no match:
-|                                                            /names1.file
-|
-|name[a-z].file	        [range] matches a single character  /names.file
-|                        in the specified range (in this     /nameb.file
-|                        case a character in the range       no match:
-|                        of a-z, and also be numberic.)	    /name1.file
-|
-|name[abc].file	        [set] matches a single character    /namea.file
-|                        in the specified set of characters  /nameb.file
-|                        (in this case either a, b, or c)	no match:
-|                                                            /names.file
-|
-|name[!abc].file	        [!set] matches a single character,  /names.file
-|                        except the ones spesified in the    /namex.file
-|                        set of characters (in this case     no match:
-|                         a, b, or c)	                    /namesb.file
-|
-|*.file	                All files withe .file extention	    /name.file
-|                                                            /lib/name.file
-|
-|name/
-|!name/secret.log	    ! specifies a negation or           /name/file.txt
-|                        exception. Matches all files        /name/log/name.log
-|                        and folders in any name folder,     no match:
-|                        except name/secret.log              /name/secret.log
-|
-|*.file
-|!name.file	            ! specifies a negation or           /log.file
-|                        exception. All files withe          /lastname.file
-|                        .file extention, except name.file	no match:
-|                                                            /name.file
-|
-|*.file
-|!name/*.file
-|junk.*	                Adding new patterns after a         /log.file
-|                        negation will re-ignore a previous  /name/log.file
-|                        negated file                        no match:
-|                        All files withe .file extention,    /name/junk.file
-|                        except the ones in name folder. 
-|                        Unless the file name is junk
-|
+| Pattern                | Explanation/Matches                                   | Examples                  |
+| :--------------------: | :---------------------------------------------------: | :-----------------------: |
+|                        | Blank lines are ignored                               |                            |
+| `# text comment`       | Lines starting with # are ignored                     |                            |
+| name                   | All name files, name folders, and files and folders   | /name.log                 |
+|                        | in any `name` folder                                  | /name/file.txt            |
+|                        |                                                       | /lib/name.log             |
+| name/                  | Ending with `/` specifies the pattern is for a folder.| /name/file.txt            |
+|                        | Matches all files and folders in any `name` folder    | /name/log/name.log        |
+|                        | No match: `/name.log`                                 |                            |
+| name.file              | All files with the name `name.file`                   | /name.file                |
+|                        |                                                       | /lib/name.file            |
+| /name.file             | Starting with `/` specifies the pattern matches only  | /name.file                |
+|                        | files in the root folder                              | No match: /lib/name.file  |
+| lib/name.file          | Patterns specifying files in specific folders are     | /lib/name.file            |
+|                        | always relative to root (even if you don't start with `/`)| No match: name.file      |
+|                        |                                                       | /test/lib/name.file       |
+| **/lib/name.file       | Starting with `**/` specifies it matches any folder   | /lib/name.file            |
+|                        | in the repository, not just the root                  | /test/lib/name.file       |
+| **/name                | All `name` folders, and files and folders in any      | /name/log.file            |
+|                        | `name` folder                                         | /lib/name/log.file        |
+|                        |                                                       | /name/lib/log.file        |
+| /lib/**/name           | All `name` folders, and files and folders in any      | /lib/name/log.file        |
+|                        | `name` folder within the `lib` folder                 | /lib/test/name/log.file   |
+|                        |                                                       | /lib/test/ver1/name/log.file|
+|                        | No match: /name/log.file                              |                            |
+| *.file                 | All files with `.file` extension                      | /name.file                |
+|                        |                                                       | /lib/name.file            |
+| *name/                 | All folders ending with `name`                        | /lastname/log.file        |
+|                        |                                                       | /firstname/log.file       |
+| name?.file             | `?` matches a single non-specific character           | /names.file               |
+|                        |                                                       | /name1.file               |
+|                        | No match: /names1.file                                |                            |
+| name[a-z].file         | `[range]` matches a single character in the specified | /names.file               |
+|                        | range (in this case a-z, can be numeric as well)      | /nameb.file               |
+|                        | No match: /name1.file                                 |                            |
+| name[abc].file         | `[set]` matches a single character in the set of      | /namea.file               |
+|                        | characters (in this case either a, b, or c)           | /nameb.file               |
+|                        | No match: /names.file                                 |                            |
+| name[!abc].file        | `[!set]` matches a single character except the ones   | /names.file               |
+|                        | specified in the set of characters (in this case a, b,| /namex.file               |
+|                        | or c)                                                 | No match: /namesb.file    |
+| *.file                 | All files with `.file` extension                      | /name.file                |
+|                        |                                                       | /lib/name.file            |
+| name/                  |                                                       |                            |
+| !name/secret.log       | `!` specifies a negation or exception. Matches all    | /name/file.txt            |
+|                        | files and folders in any `name` folder, except        | /name/log/name.log        |
+|                        | `name/secret.log`                                     | No match: /name/secret.log|
+| *.file                 | All files with `.file` extension                      | /log.file                 |
+| !name.file             | `!` specifies a negation or exception. All files with | /lastname.file            |
+|                        | `.file` extension, except `name.file`                 | No match: /name.file      |
+| *.file                 | All files with `.file` extension                      | /log.file                 |
+| !name/*.file           | Adding new patterns after a negation will re-ignore a | /name/log.file            |
+| junk.*                 | previously negated file. All files with `.file`       | /log.file                 |
+|                        | extension, except the ones in the `name` folder.      | No match: /name/junk.file |
+|                        | Unless the file name is `junk.*`                      |                            |
+
 ## Local and Personal Git Ignore Rules
 
 It is also possible to ignore files or folders but not show it in the distributed `.gitignore` file.
